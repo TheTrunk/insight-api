@@ -46,11 +46,15 @@ MarketsService.prototype._updateInfo = function () {
         if (body) {
             var needToTrigger = false;
 
-            self.info.price = body.price;
-            self.info.price_btc = body.markets[0].price;
-            self.info.market_cap_usd = body.market_cap;
-            self.info.total_volume_24h = body.total_volume_24h;
-            self.info.delta_24h = body.delta_24h;
+            self.info.price = body.price || 0;
+            if (body.markets) {
+                if (body.markets[0]) {
+                    self.info.price_btc = body.markets[0].price || 0;
+                }
+            }
+            self.info.market_cap_usd = body.market_cap || 0;
+            self.info.total_volume_24h = body.total_volume_24h || 0;
+            self.info.delta_24h = body.delta_24h || 0;
             needToTrigger = true;
 
             if (needToTrigger) {
